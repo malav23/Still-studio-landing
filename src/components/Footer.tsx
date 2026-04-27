@@ -1,63 +1,67 @@
+import { ArrowUpRight, Linkedin, Twitter, Instagram } from 'lucide-react';
+
+const links = {
+  Company:   ['About', 'Courses', 'For Teams', 'For Governments', 'Careers'],
+  Resources: ['AI Diagnostics', 'Case Studies', 'Blog', 'Documentation', 'Webinars'],
+  Industries:['FMCG & Consumer', 'Supply Chain', 'Manufacturing', 'Logistics', 'Retail'],
+};
+
 export default function Footer() {
   return (
-    <footer className="bg-white pt-32 pb-12 text-black/30 border-t border-black/5">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
-          {/* Logo & About */}
-          <div className="col-span-1 lg:col-span-1 flex flex-col gap-8">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center shrink-0">
-                 <div className="w-3 h-3 bg-white/20 blur-[2px] rounded-full"></div>
-              </div>
-              <span className="text-black font-bold text-lg tracking-tighter uppercase">
-                Still<span className="text-black/30">studio</span>
-              </span>
+    <footer id="contact" className="bg-primary text-white px-6 md:px-12 pt-16 pb-8">
+      <div className="max-w-7xl mx-auto">
+
+        {/* Top grid */}
+        <div className="grid md:grid-cols-4 gap-12 mb-14">
+
+          {/* Brand */}
+          <div>
+            <div className="font-display font-semibold text-2xl mb-4 tracking-tight">
+              still<span className="opacity-50">.</span>studio
             </div>
-            <p className="text-[13px] leading-relaxed max-w-xs font-light font-serif italic text-black/50">
-              Practical, role-specific AI upskilling for operational leaders. Built for the people who run the world's most complex industries.
+            <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-xs">
+              Architecting AI-native workforces for enterprise operations leaders
+              across FMCG, manufacturing, and supply chain.
             </p>
+            <a
+              href="mailto:hello@still-studio.ai"
+              className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-white transition-colors"
+            >
+              hello@still-studio.ai <ArrowUpRight size={12} />
+            </a>
+
+            {/* Socials */}
+            <div className="flex items-center gap-3 mt-5">
+              {[Linkedin, Twitter, Instagram].map((Icon, i) => (
+                <a key={i} href="#" className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center">
+                  <Icon size={13} />
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Links 1 */}
-          <div>
-            <h4 className="text-black font-bold text-[10px] mb-8 uppercase tracking-[0.3em]">Company</h4>
-            <ul className="space-y-4 text-[13px] font-bold uppercase tracking-widest">
-              <li><a href="#" className="hover:text-black transition-colors">Courses</a></li>
-              <li><a href="#" className="hover:text-black transition-colors">Solutions</a></li>
-              <li><a href="#" className="hover:text-black transition-colors">For Teams</a></li>
-              <li><a href="#" className="hover:text-black transition-colors">For Governments</a></li>
-            </ul>
-          </div>
-
-          {/* Links 2 */}
-          <div>
-            <h4 className="text-black font-bold text-[10px] mb-8 uppercase tracking-[0.3em]">Resources</h4>
-            <ul className="space-y-4 text-[13px] font-bold uppercase tracking-widest">
-              <li><a href="#" className="hover:text-black transition-colors">AI Diagnostics</a></li>
-              <li><a href="#" className="hover:text-black transition-colors">Case Studies</a></li>
-              <li><a href="#" className="hover:text-black transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-black transition-colors">Documentation</a></li>
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="text-black font-bold text-[10px] mb-8 uppercase tracking-[0.3em]">Get in Touch</h4>
-            <ul className="space-y-4 text-[13px] font-serif italic">
-              <li><a href="#" className="hover:text-black transition-colors text-black/60">contact@stillstudio.ai</a></li>
-              <li><a href="#" className="hover:text-black transition-colors text-black/60">Book a Demo</a></li>
-              <li><a href="#" className="hover:text-black transition-colors text-black/60">Support</a></li>
-            </ul>
-          </div>
+          {Object.entries(links).map(([heading, items]) => (
+            <div key={heading}>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/35 mb-5">{heading}</h4>
+              <ul className="flex flex-col gap-3">
+                {items.map(item => (
+                  <li key={item}>
+                    <a href="#" className="text-sm text-white/55 hover:text-white transition-colors">{item}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-12 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold tracking-[0.2em] uppercase">
-          <div className="flex gap-8">
-            <a href="#" className="hover:text-black transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-black transition-colors">Terms of Service</a>
+        {/* Bottom */}
+        <div className="pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <span className="text-[11px] text-white/30">© 2026 Still Studio. Architecting Operational Evolution.</span>
+          <div className="flex items-center gap-6">
+            {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(item => (
+              <a key={item} href="#" className="text-[11px] text-white/30 hover:text-white/60 transition-colors">{item}</a>
+            ))}
           </div>
-          <p className="opacity-40">© 2026 Still Studio. Architecting Operational Evolution.</p>
         </div>
       </div>
     </footer>

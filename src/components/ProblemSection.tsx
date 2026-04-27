@@ -1,141 +1,97 @@
-import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, animate } from 'motion/react';
+import { motion } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
-import { AlertTriangle, BookX, BarChart2, Users } from 'lucide-react';
-import { fadeUp, scaleUp, staggerContainer } from './animations';
 
-function CountUp({ value, suffix = "", prefix = "" }: { value: number, suffix?: string, prefix?: string }) {
-  const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: true });
-  const [displayValue, setDisplayValue] = useState(0);
+const industryTags = [
+  'FMCG & Consumer Goods', 'Supply Chain', 'Advanced Manufacturing',
+  'Logistics', 'Procurement', 'Retail Operations', 'D2C Brands',
+  'Auto Ancillary', 'Pharmaceuticals', 'Cold Chain',
+];
+const topicTags = [
+  'Prompt Engineering', 'Claude AI', 'AI Workflows', 'Multi-Agent Systems',
+  'Demand Forecasting', 'Predictive Maintenance', 'Computer Vision',
+  'LLM for Operations', 'AI Copilot', 'Autonomous Reporting',
+];
 
-  useEffect(() => {
-    if (inView) {
-      const controls = animate(0, value, {
-        duration: 1.5,
-        ease: "easeOut",
-        onUpdate: (latest) => setDisplayValue(Math.floor(latest))
-      });
-      return () => controls.stop();
-    }
-  }, [inView, value]);
-
-  return (
-    <span ref={ref}>
-      {prefix}{displayValue}{suffix}
-    </span>
-  );
-}
+const stats = [
+  { value: '87%', label: 'of enterprise AI rollouts fail due to workforce capability gaps, not the technology' },
+  { value: '74%', label: 'of mid-level managers never receive structured AI training after tool deployment' },
+  { value: '<15%', label: 'user confidence reported post-deployment without role-specific training' },
+];
 
 export default function ProblemSection() {
-  const problemCards = [
-    {
-      icon: <AlertTriangle size={24} className="text-blue-600" />,
-      title: "Tools deployed, nobody trained",
-      body: "Licenses purchased, dashboards built, adoption near zero. The investment is already made — the skills aren't."
-    },
-    {
-      icon: <BookX size={24} className="text-blue-600" />,
-      title: "Generic training doesn't land",
-      body: "Off-the-shelf AI courses teach ChatGPT basics. Your teams need scenarios built around their actual decisions."
-    },
-    {
-      icon: <BarChart2 size={24} className="text-blue-600" />,
-      title: "L&D can't prove ROI",
-      body: "Completion certificates don't move leadership. You need workflow change data — not attendance logs."
-    },
-    {
-      icon: <Users size={24} className="text-blue-600" />,
-      title: "Mid-management is the bottleneck",
-      body: "Executives get the vision. Frontline gets the tools. The managers in between get nothing."
-    }
-  ];
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.08 });
 
   return (
-    <section className="bg-white py-32 overflow-hidden border-t border-slate-100">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div className="max-w-5xl mb-24 flex flex-col items-start text-left">
-          <motion.span 
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-8"
-          >
-            01 — The Workforce Friction
-          </motion.span>
-          <motion.h2 
-            variants={fadeUp}
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="font-serif font-medium text-5xl md:text-7xl lg:text-8xl text-slate-900 mb-10 leading-[1.0] tracking-tight"
-          >
-            Capabilities <span className="italic font-normal text-blue-600">stall</span> at adoption.
-          </motion.h2>
-          <motion.p 
-            variants={fadeUp}
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-slate-500 text-xl font-light leading-relaxed max-w-xl font-serif italic"
-          >
-            Enterprises deploy tools, yet workforce readiness remains static. The friction in AI ROI isn't the technology—it's the capacity of teams to integrate it.
-          </motion.p>
-        </div>
+    <section ref={ref} className="bg-white pt-0 pb-24">
 
-        {/* Stats Strip */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-32 border-y border-slate-100 py-16">
-          <div className="flex flex-col items-start gap-4">
-            <h3 className="font-serif text-7xl text-slate-900">
-              <CountUp value={87} suffix="%" />
-            </h3>
-            <p className="text-slate-400 text-[10px] uppercase font-bold tracking-[0.2em] px-3 py-1 bg-slate-50 rounded-full">
-              ADOPTION FAILURE
-            </p>
-          </div>
-          <div className="flex flex-col items-start gap-4">
-            <h3 className="font-serif text-7xl text-slate-900">
-              <CountUp value={74} suffix="%" />
-            </h3>
-            <p className="text-slate-400 text-[10px] uppercase font-bold tracking-[0.2em] px-3 py-1 bg-slate-50 rounded-full">
-              UNTRAINED MANAGERS
-            </p>
-          </div>
-          <div className="flex flex-col items-start gap-4">
-            <h3 className="font-serif text-7xl text-slate-900">
-              <CountUp value={15} prefix="<" suffix="%" />
-            </h3>
-            <p className="text-slate-400 text-[10px] uppercase font-bold tracking-[0.2em] px-3 py-1 bg-slate-50 rounded-full">
-              USER CONFIDENCE
-            </p>
+      {/* ── Scrolling tag marquee ── */}
+      <div className="py-10 overflow-hidden border-y border-black/6">
+        {/* Row 1 — scrolls left */}
+        <div className="flex gap-3 mb-3 overflow-hidden">
+          <div
+            className="flex gap-3 shrink-0 whitespace-nowrap"
+            style={{ animation: 'marquee-left 30s linear infinite' }}
+          >
+            {[...industryTags, ...industryTags].map((tag, i) => (
+              <span
+                key={i}
+                className="inline-flex items-center bg-cream text-primary text-xs font-semibold px-4 py-2 rounded-[1000px] border border-primary/10 shrink-0"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
 
-        {/* Problem Cards Grid */}
-        <motion.div 
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"
+        {/* Row 2 — scrolls right */}
+        <div className="flex gap-3 overflow-hidden">
+          <div
+            className="flex gap-3 shrink-0 whitespace-nowrap"
+            style={{ animation: 'marquee-right 28s linear infinite' }}
+          >
+            {[...topicTags, ...topicTags].map((tag, i) => (
+              <span
+                key={i}
+                className="inline-flex items-center bg-black/5 text-black/65 text-xs font-semibold px-4 py-2 rounded-[1000px] shrink-0"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Stats ── */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-20">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="font-display font-semibold text-center mb-14"
+          style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
         >
-          {problemCards.map((card, i) => (
+          The Enterprise AI Adoption Gap
+        </motion.h2>
+
+        <div className="grid md:grid-cols-3 gap-5">
+          {stats.map((s, i) => (
             <motion.div
               key={i}
-              variants={fadeUp}
-              className="group"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: i * 0.1 }}
+              className="bg-cream rounded-[16px] p-8 card-shadow"
             >
-              <div className="text-blue-600 mb-8 opacity-30 group-hover:opacity-100 transition-opacity">
-                {card.icon}
+              <div
+                className="font-display font-semibold text-primary mb-3"
+                style={{ fontSize: 'clamp(3rem, 6vw, 4.5rem)', lineHeight: 1 }}
+              >
+                {s.value}
               </div>
-              <h4 className="text-slate-900 font-serif text-2xl mb-4 tracking-tight">{card.title}</h4>
-              <p className="text-slate-400 text-sm leading-relaxed font-light">
-                {card.body}
-              </p>
+              <p className="text-black/55 text-sm leading-relaxed">{s.label}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

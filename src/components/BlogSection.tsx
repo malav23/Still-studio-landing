@@ -1,107 +1,94 @@
 import { motion } from 'motion/react';
-import { fadeUp, staggerContainer } from './animations';
+import { useInView } from 'react-intersection-observer';
+import { ArrowUpRight } from 'lucide-react';
 
 const posts = [
   {
-    date: "MAR 24, 2026",
-    title: "The Managerial Gap in Industrial AI Rollouts",
-    category: "Strategy",
-    readTime: "8 MIN READ"
+    cat: 'Strategy',
+    date: 'Mar 24, 2026',
+    read: '8 min',
+    title: 'The Managerial Gap in Industrial AI Rollouts',
+    excerpt: 'Why 74% of mid-level managers never receive structured AI training after tool deployment — and what it costs enterprise operations.',
+    image: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=700&q=80&auto=format&fit=crop',
   },
   {
-    date: "MAR 18, 2026",
-    title: "LLMs for Logistics: Moving Beyond Chatbots",
-    category: "Technical",
-    readTime: "12 MIN READ"
+    cat: 'Technical',
+    date: 'Mar 18, 2026',
+    read: '12 min',
+    title: 'LLMs for Logistics: Moving Beyond Chatbots',
+    excerpt: 'How operational leaders can deploy large language models for real supply chain decision support — not just internal Q&A.',
+    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=700&q=80&auto=format&fit=crop',
   },
   {
-    date: "MAR 12, 2026",
-    title: "Operational Trust: How to Certify AI Decisioning",
-    category: "Operations",
-    readTime: "6 MIN READ"
+    cat: 'Operations',
+    date: 'Mar 12, 2026',
+    read: '6 min',
+    title: 'Operational Trust: How to Certify AI Decisioning',
+    excerpt: 'A practical framework for building verification processes that let operations teams trust and act on AI recommendations at scale.',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=700&q=80&auto=format&fit=crop',
   },
-  {
-    date: "MAR 05, 2026",
-    title: "The Architecture of a Still-First Enterprise",
-    category: "Culture",
-    readTime: "10 MIN READ"
-  }
 ];
 
 export default function BlogSection() {
-  return (
-    <section className="bg-dark py-32 border-t border-slate-100 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex flex-col md:flex-row justify-between items-start mb-24 gap-12">
-          <div className="max-w-xl">
-            <motion.span 
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-8 block"
-            >
-              05 — Intelligence Layer
-            </motion.span>
-            <motion.h2 
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="font-serif font-medium text-5xl md:text-7xl text-slate-900 leading-tight"
-            >
-              The Knowledge Base for <span className="italic font-normal text-blue-600">Decision Makers</span>.
-            </motion.h2>
-          </div>
-          <div className="md:pt-12">
-            <p className="text-slate-500 text-lg max-w-xs font-light leading-relaxed font-serif italic">
-              Exploring the intersection of autonomous systems and human leadership in mission-critical industries.
-            </p>
-          </div>
-        </div>
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.08 });
 
-        <motion.div 
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="flex flex-col"
+  return (
+    <section ref={ref} id="blog" className="bg-cream py-24 px-6 md:px-12">
+      <div className="max-w-7xl mx-auto">
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14"
         >
-          {posts.map((post, i) => (
-            <motion.a
-              key={i}
-              href="#"
-              variants={fadeUp}
-              className="group flex flex-col md:flex-row md:items-center py-10 border-t border-slate-100 hover:bg-blue-50/30 transition-colors px-4 -mx-4"
-            >
-              <div className="flex-shrink-0 w-32 mb-4 md:mb-0">
-                 <span className="text-[10px] font-bold text-slate-400 tracking-widest">{post.date}</span>
-              </div>
-              <div className="flex-grow">
-                <div className="flex items-center gap-4 mb-2">
-                   <span className="text-[9px] font-bold uppercase text-blue-600 tracking-widest px-2 py-0.5 border border-blue-600/10 rounded-full">{post.category}</span>
-                   <span className="text-[9px] font-bold uppercase text-slate-300 tracking-widest">{post.readTime}</span>
-                </div>
-                <h3 className="text-slate-900 font-serif text-2xl md:text-3xl group-hover:translate-x-2 transition-transform duration-500">
-                  {post.title}
-                </h3>
-              </div>
-              <div className="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 transition-transform duration-500 text-blue-600">
-                 <span className="text-2xl">→</span>
-              </div>
-            </motion.a>
-          ))}
-          <div className="border-t border-slate-100"></div>
+          <h2 className="font-display font-semibold text-black"
+            style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)' }}>
+            From Our Knowledge Base
+          </h2>
+          <a
+            href="#"
+            className="hidden md:inline-flex items-center gap-2 bg-sage text-primary font-semibold text-sm px-5 py-2.5 rounded-[10px] hover:opacity-80 transition-opacity"
+          >
+            See All Posts <ArrowUpRight size={14} />
+          </a>
         </motion.div>
 
-        <div className="mt-20 text-center">
-           <motion.button 
-             whileHover={{ scale: 1.05 }}
-             className="px-10 h-14 bg-blue-600 text-white rounded-full text-[13px] font-bold uppercase tracking-widest shadow-lg shadow-blue-600/20"
-           >
-             Read All Insights
-           </motion.button>
+        <div className="grid md:grid-cols-3 gap-5">
+          {posts.map((p, i) => (
+            <motion.article
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: i * 0.1 }}
+              className="group bg-white rounded-[16px] overflow-hidden card-shadow hover:-translate-y-0.5 transition-transform cursor-pointer"
+            >
+              {/* Image */}
+              <div className="h-48 overflow-hidden">
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-600"
+                />
+              </div>
+
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">{p.cat}</span>
+                  <span className="text-[10px] text-black/35">{p.date} · {p.read} read</span>
+                </div>
+
+                <h3 className="font-display font-semibold text-xl text-black mb-2 leading-snug group-hover:text-primary transition-colors">
+                  {p.title}
+                </h3>
+                <p className="text-black/50 text-sm leading-relaxed mb-5">{p.excerpt}</p>
+
+                <div className="flex items-center gap-1 text-sm font-semibold text-black/40 group-hover:text-primary transition-colors">
+                  Learn More <ArrowUpRight size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </div>
+              </div>
+            </motion.article>
+          ))}
         </div>
       </div>
     </section>

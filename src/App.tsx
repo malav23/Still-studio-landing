@@ -1,64 +1,93 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import BenefitSection from './components/BenefitSection';
+import IndustrySolutions from './components/IndustrySolutions';
 import ProblemSection from './components/ProblemSection';
 import PlatformSection from './components/PlatformSection';
-import IndustrySolutions from './components/IndustrySolutions';
-import CourseCatalogue from './components/CourseCatalogue';
 import HowItWorks from './components/HowItWorks';
+import BenefitSection from './components/BenefitSection';
 import CaseStudies from './components/CaseStudies';
+import CourseCatalogue from './components/CourseCatalogue';
 import BlogSection from './components/BlogSection';
 import Footer from './components/Footer';
 import IndustryPage from './pages/IndustryPage';
 
 function HomePage() {
   return (
-    <div className="md:h-screen md:overflow-y-scroll md:snap-y md:snap-mandatory h-auto">
-      <div className="md:snap-start h-auto md:min-h-screen"><Hero /></div>
-      <div className="md:snap-start h-auto md:min-h-screen flex items-center justify-center py-20 md:py-0"><ProblemSection /></div>
-      <div className="md:snap-start h-auto md:min-h-screen flex items-center justify-center py-20 md:py-0"><BenefitSection /></div>
-      <div className="md:snap-start h-auto md:min-h-screen flex items-center justify-center py-20 md:py-0"><CaseStudies /></div>
-      <div className="md:snap-start h-auto md:min-h-screen flex items-center justify-center py-20 md:py-0"><PlatformSection /></div>
-      <div className="md:snap-start h-auto md:min-h-screen flex items-center justify-center py-20 md:py-0"><IndustrySolutions /></div>
-      <div className="md:snap-start h-auto md:min-h-screen flex items-center justify-center py-20 md:py-0"><HowItWorks /></div>
-      <div className="md:snap-start h-auto md:min-h-screen flex items-center justify-center py-20 md:py-0"><CourseCatalogue /></div>
-      <div className="md:snap-start h-auto md:min-h-screen flex items-center justify-center py-20 md:py-0 text-slate-900"><BlogSection /></div>
-      
-      {/* Pre-footer CTA */}
-      <div className="md:snap-start h-auto md:min-h-screen flex flex-col">
-        <section className="bg-white flex-grow flex flex-col justify-center text-center px-6 border-t border-slate-100 relative overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-32 bg-slate-100"></div>
-          
-          <div className="max-w-6xl mx-auto flex flex-col gap-12 items-center relative z-10">
-            <span className="text-[10px] font-bold tracking-[0.4em] text-slate-400 uppercase">
-              04 — TERMINATE STAGNATION
-            </span>
-            <h2 className="font-serif font-medium text-6xl md:text-9xl text-slate-900 leading-[0.9] tracking-tight">
-              Architect Your<br/>
-              <span className="italic font-normal text-blue-600">Evolution</span>
-            </h2>
-            <p className="text-slate-500 text-xl md:text-3xl max-w-2xl font-light font-serif italic">
-              Join the 1,400+ operational leaders already deploying autonomous capabilities across their workforce.
-            </p>
-            
-            <div className="mt-12">
-              <button
-                  className="w-[200px] h-[200px] rounded-full border border-slate-200 flex items-center justify-center group cursor-pointer hover:bg-blue-600 hover:text-white transition-all duration-700 bg-slate-50 shadow-xl shadow-blue-900/5"
-              >
-                  <span className="text-[12px] font-bold uppercase tracking-widest text-center leading-relaxed">Register for<br/>Next Cohort</span>
-              </button>
-            </div>
+    <main>
+      {/* pb-20 creates space for the fixed bottom pill nav */}
+      <Hero />
+      <IndustrySolutions />
+      <ProblemSection />
+
+      {/* ── CTA Strip ── */}
+      <section className="bg-cream py-14 px-6 md:px-12 border-y border-black/6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <h3 className="font-display font-semibold text-black text-3xl md:text-4xl leading-snug max-w-lg">
+            Ready to train your enterprise team?
+          </h3>
+          <div className="flex flex-wrap gap-3 shrink-0">
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 bg-primary text-white font-semibold text-sm px-6 py-3 rounded-[10px] hover:opacity-90 transition-opacity"
+            >
+              Contact Us <ArrowUpRight size={15} />
+            </a>
+            <a
+              href="#courses"
+              className="inline-flex items-center gap-2 bg-sage text-primary font-semibold text-sm px-6 py-3 rounded-[10px] hover:opacity-80 transition-opacity"
+            >
+              Our Curriculum →
+            </a>
           </div>
-        </section>
-        <Footer />
-      </div>
-    </div>
+        </div>
+      </section>
+
+      <PlatformSection />
+      <HowItWorks />
+      <BenefitSection />
+      <CaseStudies />
+      <CourseCatalogue />
+      <BlogSection />
+
+      {/* ── Final CTA ── */}
+      <section className="bg-primary py-28 px-6 md:px-12">
+        <div className="max-w-7xl mx-auto text-center flex flex-col items-center gap-8">
+          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/35">
+            Get Started
+          </span>
+          <h2
+            className="font-display font-semibold text-white leading-tight max-w-3xl"
+            style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}
+          >
+            Ready to build your<br />
+            <em className="not-italic text-sage">AI-native</em> workforce?
+          </h2>
+          <p className="text-white/55 text-lg max-w-md leading-relaxed">
+            Join 1,400+ operational leaders already deploying autonomous
+            AI capabilities across FMCG, manufacturing, and supply chain.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 mt-2">
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 bg-white text-primary font-semibold text-sm px-8 py-3.5 rounded-[10px] hover:opacity-90 transition-opacity group"
+            >
+              Request a Demo
+              <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </a>
+            <a
+              href="#courses"
+              className="inline-flex items-center gap-2 bg-white/10 text-white font-semibold text-sm px-8 py-3.5 rounded-[10px] hover:bg-white/20 transition-colors"
+            >
+              Explore Curriculum
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
   );
 }
 
@@ -68,8 +97,8 @@ export default function App() {
       <div className="min-h-screen bg-white">
         <Navbar />
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/industry/:slug" element={<IndustryPage />} />
+          <Route path="/"                element={<HomePage />} />
+          <Route path="/industry/:slug"  element={<IndustryPage />} />
         </Routes>
       </div>
     </BrowserRouter>
