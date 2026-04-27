@@ -1,162 +1,129 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Search, Layers, TrendingUp, Check } from 'lucide-react';
-import { fadeUp, staggerContainer } from './animations';
+import { motion } from 'motion/react';
+import { useInView } from 'react-intersection-observer';
+import { Lightbulb, Target, TrendingUp, Check, X } from 'lucide-react';
 
-const pillars = [
+const values = [
   {
-    id: 'assess',
-    label: 'Assess',
-    icon: <Search className="text-brand-dark" size={48} />,
-    title: 'Assess',
-    body: 'Understand exactly where your teams stand before any training begins.',
-    features: [
-      'AI readiness diagnostic by role and function',
-      'Benchmark against industry standards',
-      'Identify highest-ROI upskilling priorities',
-      'Delivered as a diagnostic report, not just a score'
-    ]
+    Icon: Lightbulb,
+    title: 'Expert Practitioners',
+    body: 'Our facilitators have run actual supply chains and production floors. Not academics — operators who now teach AI.',
   },
   {
-    id: 'build',
-    label: 'Build',
-    icon: <Layers className="text-brand-dark" size={48} />,
-    title: 'Build',
-    body: 'Role-specific AI training built around how your industry actually works.',
-    features: [
-      'Courses built for operations, FMCG, supply chain, and manufacturing',
-      'Live cohorts and async modules for flexible delivery',
-      'On-site, virtual, or hybrid — we match your calendar',
-      'Real tools, real scenarios, immediate application'
-    ]
+    Icon: Target,
+    title: 'Role-Specific Scenarios',
+    body: 'Every module is built around real decisions in your industry. Category managers get category scenarios. Plant heads get plant scenarios.',
   },
   {
-    id: 'prove',
-    label: 'Prove',
-    icon: <TrendingUp className="text-brand-dark" size={48} />,
-    title: 'Prove',
-    body: 'Measure what changes in workflows — not just who attended.',
-    features: [
-      'Post-cohort adoption tracking at day 30 and 60',
-      'Manager-reported workflow and output changes',
-      'KPI benchmarks set before, measured after',
-      'ROI-ready reporting for L&D and leadership'
-    ]
-  }
+    Icon: TrendingUp,
+    title: 'Measurable ROI',
+    body: 'Day 30 & 60 adoption tracking with before/after KPI benchmarks. Board-ready reporting for your CHRO and COO.',
+  },
+];
+
+const comparison = [
+  { benefit: 'Role-specific scenarios',   generic: false, still: true },
+  { benefit: 'Operations industry focus', generic: false, still: true },
+  { benefit: 'Post-cohort ROI tracking',  generic: false, still: true },
+  { benefit: 'Day 30 & 60 measurement',   generic: false, still: true },
+  { benefit: 'Board-ready reporting',     generic: false, still: true },
+  { benefit: 'Beginner AI awareness',     generic: true,  still: true },
+];
+
+const bottomStats = [
+  { v: '1,400+', l: 'Leaders Trained' },
+  { v: '6',      l: 'Industry Verticals' },
+  { v: '82%',    l: 'Day-30 Adoption' },
+  { v: '3.2×',   l: 'Faster Decisions' },
 ];
 
 export default function PlatformSection() {
-  const [activeTab, setActiveTab] = useState('assess');
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.08 });
 
   return (
-    <section className="bg-white py-32 border-t border-slate-100">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div className="mb-20 text-center flex flex-col items-center">
-          <motion.span 
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-8"
-          >
-            02 — The Methodology
-          </motion.span>
-          <motion.h2 
-            variants={fadeUp}
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="font-serif font-medium text-5xl md:text-7xl lg:text-8xl text-slate-900 mb-8 leading-[1.0] tracking-tight"
-          >
-            Systems of <span className="italic font-normal text-blue-600">advancement</span>.
-          </motion.h2>
-          <motion.p 
-            variants={fadeUp}
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-slate-500 text-xl max-w-xl leading-relaxed font-light mx-auto font-serif italic"
-          >
-            A cohesive architecture managing the full operational learning lifecycle. From diagnostic assessment to outcome verification.
-          </motion.p>
+    <section ref={ref} className="bg-white py-24 px-6 md:px-12">
+      <div className="max-w-7xl mx-auto">
+
+        {/* Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-14"
+        >
+          <h2 className="font-display font-semibold text-black mb-4"
+            style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)' }}>
+            Why Even Us?
+          </h2>
+          <p className="text-black/50 text-base max-w-xl mx-auto leading-relaxed">
+            We go beyond surface-level AI courses — our approach is built on
+            operational experience, role-specific content, and measurable outcomes.
+          </p>
+        </motion.div>
+
+        {/* 3 value cards */}
+        <div className="grid md:grid-cols-3 gap-5 mb-10">
+          {values.map(({ Icon, title, body }, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: i * 0.1 }}
+              className="bg-cream rounded-[16px] p-7 card-shadow"
+            >
+              <div className="w-11 h-11 bg-white rounded-[8px] flex items-center justify-center mb-5">
+                <Icon size={18} className="text-primary" strokeWidth={1.5} />
+              </div>
+              <h3 className="font-display font-semibold text-xl text-black mb-2">{title}</h3>
+              <p className="text-black/50 text-sm leading-relaxed">{body}</p>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Tabs Interface */}
-        <div className="flex flex-col gap-16">
-          {/* Nav */}
-          <div className="flex justify-center gap-2 overflow-x-auto pb-4 no-scrollbar">
-            <div className="p-1.5 rounded-full flex gap-1 bg-slate-50 border border-slate-100">
-              {pillars.map((pillar) => (
-                <button
-                  key={pillar.id}
-                  onClick={() => setActiveTab(pillar.id)}
-                  className={`whitespace-nowrap px-8 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 ${
-                    activeTab === pillar.id 
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' 
-                      : 'text-slate-400 hover:text-blue-600'
-                  }`}
-                >
-                  {pillar.label}
-                </button>
-              ))}
+        {/* Comparison table */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="bg-cream rounded-[16px] overflow-hidden card-shadow mb-10"
+        >
+          {/* Table header */}
+          <div className="grid grid-cols-3 border-b border-black/8 px-6 py-4">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-black/40">Benefits</span>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-black/40 text-center">Generic AI Training</span>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary text-center">Still Studio</span>
+          </div>
+          {comparison.map((row, i) => (
+            <div
+              key={i}
+              className={`grid grid-cols-3 px-6 py-4 items-center ${i < comparison.length - 1 ? 'border-b border-black/6' : ''}`}
+            >
+              <span className="text-sm text-black/70">{row.benefit}</span>
+              <div className="flex justify-center">
+                {row.generic
+                  ? <Check size={16} className="text-black/30" />
+                  : <X     size={16} className="text-black/20" />}
+              </div>
+              <div className="flex justify-center">
+                <Check size={16} className="text-primary" />
+              </div>
             </div>
-          </div>
+          ))}
+        </motion.div>
 
-          {/* Content Panel */}
-          <div className="min-h-[400px]">
-            <AnimatePresence mode="wait">
-              {pillars.map((pillar) => pillar.id === activeTab && (
-                <motion.div
-                  key={pillar.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.4, ease: "circOut" }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-16"
-                >
-                  <div className="space-y-10">
-                    <div className="inline-flex items-center gap-3 px-4 py-2 border border-blue-600/10 bg-blue-600/5 rounded-full">
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></div>
-                      <span className="text-[10px] font-bold text-blue-700 uppercase tracking-widest leading-none">
-                        PHASE_{pillar.id.toUpperCase()}
-                      </span>
-                    </div>
-                    <h3 className="font-serif text-4xl lg:text-7xl text-slate-900 tracking-tight leading-[1.0]">
-                      {pillar.title}
-                    </h3>
-                    <p className="text-xl text-slate-500 leading-relaxed font-light max-w-md font-serif italic">
-                      {pillar.body}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-8 md:pl-12">
-                    <motion.ul 
-                      variants={staggerContainer}
-                      initial="hidden"
-                      animate="visible"
-                      className="space-y-8"
-                    >
-                      {pillar.features.map((feature, i) => (
-                        <motion.li 
-                          key={i}
-                          variants={fadeUp}
-                          className="group flex gap-6"
-                        >
-                          <span className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em] pt-2">
-                            0{i+1}
-                          </span>
-                          <span className="text-xl text-slate-700 font-light group-hover:text-blue-600 transition-colors leading-relaxed">
-                            {feature}
-                          </span>
-                        </motion.li>
-                      ))}
-                    </motion.ul>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        </div>
+        {/* Bottom stats row */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.45 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-5"
+        >
+          {bottomStats.map((s, i) => (
+            <div key={i} className="text-center">
+              <div className="font-display font-semibold text-4xl text-primary mb-1">{s.v}</div>
+              <div className="text-xs text-black/45 uppercase tracking-wide">{s.l}</div>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
